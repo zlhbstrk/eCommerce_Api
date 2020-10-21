@@ -13,9 +13,9 @@ namespace eCommerce_Api.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly BalbocegiGidaContext _context;
+        private readonly BalBocegiGidaContext _context;
 
-        public ProductsController(BalbocegiGidaContext context)
+        public ProductsController(BalBocegiGidaContext context)
         {
             _context = context;
         }
@@ -42,10 +42,9 @@ namespace eCommerce_Api.Controllers
         }
 
         // PUT: api/Products/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://go.microsoft.com/fwlink/?linkid=2123754.
+        // GÜNCELLEME
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutProduct(int id, Product product)
+        public async Task<ActionResult<Product>> PutProduct(int id, Product product)
         {
             if (id != product.Id)
             {
@@ -70,14 +69,19 @@ namespace eCommerce_Api.Controllers
                 }
             }
 
-            return NoContent();
+            return product;
         }
 
-        [Route("api/[controller]/[action]")]
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutAskiyaAlProduct(int id)
+        [HttpPut("[action]/{id}")]
+        public async Task<ActionResult<Product>> AskiyaAl(int id)
         {
-            var product = await _context.Product.FindAsync(id);
+            var product =  await _context.Product.FindAsync(id);
+
+            if (product == null)
+            {
+                return BadRequest();
+            }
+
             product.Status = false;
 
             try
@@ -96,8 +100,9 @@ namespace eCommerce_Api.Controllers
                 }
             }
 
-            return NoContent();
+            return product;
         }
+
 
         // POST: api/Products
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
@@ -106,21 +111,7 @@ namespace eCommerce_Api.Controllers
         public async Task<ActionResult<Product>> PostProduct(Product product)
         {
             _context.Product.Add(product);
-            try
-            {
-                await _context.SaveChangesAsync();
-            }
-            catch (DbUpdateException)
-            {
-                if (ProductExists(product.Id))
-                {
-                    return Conflict();
-                }
-                else
-                {
-                    throw;
-                }
-            }
+            await _context.SaveChangesAsync();
 
             return CreatedAtAction("GetProduct", new { id = product.Id }, product);
         }
