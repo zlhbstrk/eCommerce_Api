@@ -42,7 +42,7 @@ namespace eCommerce_Api.Controllers
         }
 
         // PUT: api/Products/5
-        // GÜNCELLEME
+        // GÜNCELLE
         [HttpPut("{id}")]
         public async Task<ActionResult<Product>> PutProduct(int id, Product product)
         {
