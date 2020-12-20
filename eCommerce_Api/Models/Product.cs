@@ -13,5 +13,6 @@ namespace eCommerce_Api.Models
         public bool? IsStock { get; set; }
         public int? Quantity { get; set; }
         public bool? Status { get; set; }
+        public string Unit { get; set; }
     }
 }

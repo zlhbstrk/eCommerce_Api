@@ -142,6 +142,9 @@ namespace eCommerce_Api.Models
                 entity.Property(e => e.Status)
                     .HasColumnName("status")
                     .HasDefaultValueSql("((1))");
+
+                entity.Property(e => e.Unit)
+                    .HasColumnName("unit");
             });
 
             modelBuilder.Entity<User>(entity =>
